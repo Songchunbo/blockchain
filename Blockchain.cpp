@@ -1,4 +1,5 @@
 #include "Blockchain.h"
+#include <vector>
 
 Blockchain::Blockchain() {
     // Create the genesis block
@@ -7,16 +8,17 @@ Blockchain::Blockchain() {
 }
 
 Block Blockchain::createGenesisBlock() {
-    // Create a genesis block with no previous hash
-    return Block("Genesis Block", "0");
+    // Create a genesis block with no previous hash and no transactions
+    std::vector<Transaction> genesisTransactions;
+    return Block(genesisTransactions, "0");
 }
 
-void Blockchain::addBlock(const std::string& data) {
+void Blockchain::addBlock(const std::vector<Transaction>& transactions) {
     // Get the hash of the previous block
     std::string previousHash = chain.back().getHash();
     
-    // Create a new block with the data and previous hash
-    Block newBlock(data, previousHash);
+    // Create a new block with the transactions and previous hash
+    Block newBlock(transactions, previousHash);
     
     // Add the new block to the chain
     chain.push_back(newBlock);
@@ -48,10 +50,7 @@ void Blockchain::printChain() const {
     for (size_t i = 0; i < chain.size(); ++i) {
         const Block& block = chain[i];
         std::cout << "Block #" << i << std::endl;
-        std::cout << "Data: " << block.getData() << std::endl;
-        std::cout << "Timestamp: " << block.getTimestamp() << std::endl;
-        std::cout << "Previous Hash: " << block.getPreviousHash() << std::endl;
-        std::cout << "Hash: " << block.getHash() << std::endl;
+        block.printBlock();
         std::cout << "------------------------" << std::endl;
     }
 }

@@ -2,6 +2,7 @@
 #define BLOCKCHAIN_H
 
 #include "Block.h"
+#include "Transaction.h"
 #include <vector>
 #include <iostream>
 
@@ -13,7 +14,7 @@ private:
 public:
     Blockchain();
     
-    void addBlock(const std::string& data);
+    void addBlock(const std::vector<Transaction>& transactions);
     bool isChainValid() const;
     void printChain() const;
     
