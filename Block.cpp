@@ -1,7 +1,7 @@
 #include "Block.h"
 #include <sstream>
 #include <iomanip>
-#include <openssl/sha.h>
+#include <openssl/evp.h>
 
 Block::Block(const std::string& data, const std::string& previousHash) 
     : data(data), previousHash(previousHash) {
@@ -15,14 +15,18 @@ std::string Block::calculateHash() const {
     
     std::string input = ss.str();
     
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    SHA256_Update(&sha256, input.c_str(), input.size());
-    SHA256_Final(hash, &sha256);
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hashLen;
+    
+    const EVP_MD* md = EVP_sha256();
+    EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
+    EVP_DigestInit_ex(mdctx, md, NULL);
+    EVP_DigestUpdate(mdctx, input.c_str(), input.size());
+    EVP_DigestFinal_ex(mdctx, hash, &hashLen);
+    EVP_MD_CTX_free(mdctx);
     
     std::stringstream ssHash;
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
+    for (unsigned int i = 0; i < hashLen; ++i) {
         ssHash << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
     

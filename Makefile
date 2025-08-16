@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -Wextra
-LIBS = -lssl -lcrypto
+LIBS = -lcrypto
 
 # Main program
 SRCDIR = .
@@ -24,16 +24,16 @@ $(TEST_TARGET): Block.o Blockchain.o test.o
 	$(CXX) $(CXXFLAGS) -o $(TEST_TARGET) Block.o Blockchain.o test.o $(LIBS)
 
 Block.o: Block.cpp Block.h
-	$(CXX) $(CXXFLAGS) -c Block.cpp $(LIBS)
+	$(CXX) $(CXXFLAGS) -c Block.cpp
 
 Blockchain.o: Blockchain.cpp Blockchain.h Block.h
-	$(CXX) $(CXXFLAGS) -c Blockchain.cpp $(LIBS)
+	$(CXX) $(CXXFLAGS) -c Blockchain.cpp
 
 main.o: main.cpp Blockchain.h Block.h
-	$(CXX) $(CXXFLAGS) -c main.cpp $(LIBS)
+	$(CXX) $(CXXFLAGS) -c main.cpp
 
 test.o: test.cpp Blockchain.h Block.h
-	$(CXX) $(CXXFLAGS) -c test.cpp $(LIBS)
+	$(CXX) $(CXXFLAGS) -c test.cpp
 
 clean:
 	rm -f $(OBJECTS) $(TEST_OBJECTS) $(TARGET) $(TEST_TARGET)

@@ -27,6 +27,8 @@ int main() {
     
     // Note: In a real implementation, we would need a setter method to modify the data
     // For this example, we'll just show that tampering would be detected
+    // Using the secondBlock variable to demonstrate the concept
+    std::cout << "Accessing second block: " << secondBlock.getData() << std::endl;
     
     // Verify the blockchain again
     std::cout << "Is blockchain valid after tampering? " << (blockchain.isChainValid() ? "Yes" : "No") << std::endl;
