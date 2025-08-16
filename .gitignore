@@ -1,0 +1,11 @@
+# Compiled object files
+*.o
+
+# Compiled binary
+blockchain
+
+# Build directory
+build/
+
+# IDE files
+.vscode/
